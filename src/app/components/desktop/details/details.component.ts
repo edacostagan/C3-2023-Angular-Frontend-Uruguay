@@ -11,6 +11,9 @@ import { CustomerService } from '../../../services/customer.service';
 export class DetailsComponent implements OnInit {
 
   accounts!: AccountModel[] ;
+  totalBalance: number = 0 ;
+
+
 
   constructor(
 
@@ -22,12 +25,11 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
 
     this.customerService.customerAccounts.subscribe(value => this.accounts = value);
+    this.customerService.customerTotalBalance.subscribe(value => this.totalBalance = value);
 
   }
 
-  refreshAccounts(){
-    this.customerService.updateCustomerAccounts();
-  }
+
 
 }
 

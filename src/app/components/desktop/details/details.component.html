@@ -5,9 +5,9 @@
 
         <mat-grid-tile [colspan]="3" [rowspan]="1">
           <nav class="spacer"></nav>
-          <mat-label style="font-size: large;">Accounts</mat-label>
+          <mat-label style="font-size:xx-large;">Accounts</mat-label>
           <nav class="spacer"></nav>
-          <button mat-icon-button color="warn" onclick="(refreshAccounts())">
+          <button mat-icon-button color="warn" onclick="">
             <mat-icon>refresh</mat-icon>
           </button>
         </mat-grid-tile>
@@ -18,7 +18,7 @@
           <mat-label>Type</mat-label>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label>Amount</mat-label>
+          <mat-label>Balance</mat-label>
         </mat-grid-tile>
 
         <span *ngFor="let account of accounts">
@@ -34,8 +34,10 @@
             <mat-label>{{account.balance}}</mat-label>
           </mat-grid-tile>
         </span>
-
-      </mat-grid-list>
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
+          <mat-label style="text-align: center; font-size: x-large;">Total Balance: $ {{totalBalance}}</mat-label>   <!-- calculateTotalBalance() -->
+        </mat-grid-tile>
+        </mat-grid-list>
     </mat-card>
   </div>
 

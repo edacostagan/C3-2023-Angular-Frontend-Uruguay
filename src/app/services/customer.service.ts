@@ -16,12 +16,14 @@ export class CustomerService {
 
   customerData: BehaviorSubject<{}> = new BehaviorSubject({});
   customerAccounts: BehaviorSubject<[]> = new BehaviorSubject([]);
+  customerTotalBalance: BehaviorSubject<number> = new BehaviorSubject(0);
 
   customerId: BehaviorSubject<string> = new BehaviorSubject("");
   customerName: BehaviorSubject<string> = new BehaviorSubject("");
   customerAvatarURL: BehaviorSubject<string> = new BehaviorSubject("");
 
   customerID: string = localStorage.getItem("customerID") as string;
+  accounts!: AccountModel[];
 
   constructor(
     private http: HttpClient,
@@ -54,8 +56,8 @@ export class CustomerService {
       this.getCustomerData(this.customerID);
     }
     if (customer != null) {
-      let data = JSON.parse(customer)
-      this.customerData.next(data);
+      this.accounts = JSON.parse(customer)
+      this.customerData.next(this.accounts);
     }
   }
 
@@ -72,10 +74,24 @@ export class CustomerService {
     const data = localStorage.getItem("accounts");
 
     if (data != null) {
+      this.accounts = JSON.parse(data);
       this.customerAccounts.next(JSON.parse(data))
+
+      this.updateTotalBalance();
     }
   }
 
+  updateTotalBalance() {
+
+    let balance=0;
+    this.accounts.forEach(element => {
+
+      balance += element.balance;
+    });
+
+    this.customerTotalBalance.next(balance);
+
+  }
 
   /**
    * Makes a request to Backend to register a new customer
@@ -135,7 +151,7 @@ export class CustomerService {
       .subscribe({
         next: (response) => {
 
-          const responseValue: AccountModel[]  = response as unknown as AccountModel [];
+          const responseValue: AccountModel[] = response as unknown as AccountModel[];
 
           localStorage.setItem("accounts", JSON.stringify(responseValue));
         },
