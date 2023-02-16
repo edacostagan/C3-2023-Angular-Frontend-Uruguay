@@ -23,7 +23,6 @@ export class CustomerService {
   customerName: BehaviorSubject<string> = new BehaviorSubject("");
   customerAvatarURL: BehaviorSubject<string> = new BehaviorSubject("");
 
-  customerID: string = localStorage.getItem("customerID") as string;
   accounts!: AccountModel[];
 
   constructor(
@@ -49,13 +48,11 @@ export class CustomerService {
      * and parse it into an array
      * The info changes are monitored by a state Management
      */
-  refreshCustomerData() {
+  refreshCustomerData(id: string) {
 
+    this.getCustomerData(id);
     const customer = localStorage.getItem("customer");
 
-    if (customer == null) {
-      this.getCustomerData(this.customerID);
-    }
     if (customer != null) {
       this.accounts = JSON.parse(customer)
       this.customerData.next(this.accounts);
@@ -67,9 +64,9 @@ export class CustomerService {
      * and parse it into an manageable array
      * The info changes are monitored by a state Management
      */
-  refreshCustomerAccounts() {
+  refreshCustomerAccounts(id: string) {
 
-    this.getCustomerAccounts(this.customerID);
+    this.getCustomerAccounts(id);
 
     const data = localStorage.getItem("accounts");
 
@@ -82,9 +79,12 @@ export class CustomerService {
     }
   }
 
+  /**
+   * check every customer account and add the balance
+   */
   updateTotalBalance() {
 
-    let balance=0;
+    let balance = 0;
     this.accounts.forEach(element => {
 
       balance += element.balance;
@@ -135,9 +135,9 @@ export class CustomerService {
   * Updates the customer information in the DB
   *
   * */
-  updateCustomerData (id: string, customer: CustomerModel) {
+  updateCustomerData(id: string, customer: CustomerModel) {
     return this.http.put<TokenResponseModel>(`${environment.API_URL}customer/update/${id}`, customer)
- }
+  }
 
   /**
    * Search the database for the customer with the given email
@@ -155,13 +155,12 @@ export class CustomerService {
    */
   getCustomerAccounts(id: string) {
 
-    this.http.get<AccountModel>(`${environment.API_URL}/account/customer/${id}`)//, {}
+    this.http.get(`${environment.API_URL}/account/customer/${id}`)
       .subscribe({
         next: (response) => {
 
-          const responseValue: AccountModel[] = response as unknown as AccountModel[];
+          localStorage.setItem("accounts", JSON.stringify(response));
 
-          localStorage.setItem("accounts", JSON.stringify(responseValue));
         },
       })
   }

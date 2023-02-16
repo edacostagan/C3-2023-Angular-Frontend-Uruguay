@@ -30,12 +30,18 @@ export class NavbarComponent implements OnInit {
    * and exit the desktop
    */
   logout() {
+
+    this.clearAllSessionData();
+    this.appComp.toHome();
+    this.router.navigate(["/"]);
+
+  }
+
+  clearAllSessionData(){
     localStorage.clear();
     this.authService.setUserLogStatus(false);
     this.authService.setPublicZoneStatus(true);
     this.authService.setUserAccessPermits(false);
-    this.appComp.toHome();
-    this.router.navigate(["/"]);
   }
 
 }

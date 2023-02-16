@@ -38,12 +38,9 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-
-
-
   ngOnInit(): void {
 
-    this.customerService.refreshCustomerData();
+    this.customerService.refreshCustomerData( localStorage.getItem("customerID") as string);
 
     this.customerService.customerData.subscribe(value => this.customerData = value as CustomerModel);
 

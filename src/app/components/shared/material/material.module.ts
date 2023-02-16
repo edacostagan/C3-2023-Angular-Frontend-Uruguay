@@ -13,8 +13,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatGridListModule} from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
-import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 const component = [
@@ -31,7 +31,9 @@ const component = [
   MatSnackBarModule,
   MatGridListModule,
   MatTableModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatPaginatorModule,
+
 ];
 
 
@@ -50,7 +52,8 @@ const component = [
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginatorModule,
 
   ],
   exports: [

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DesktopService } from '../../services/desktop.service';
-import { CustomerService } from '../../services/customer.service';
 
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-desktop',
@@ -21,27 +20,21 @@ export class DesktopComponent implements OnInit {
   customerName!: string;
   customerAvatarUrl!: string;
 
-
   constructor(
     private customerService: CustomerService,
-    private deskService: DesktopService,
+
   ) { }
 
   ngOnInit(): void {
 
-    this.customerService.refreshCustomerData();
-
     this.customerService.updateCustomerName(localStorage.getItem('customerFullname') as string);
-
     this.customerService.customerId.subscribe(value => this.customerId = value);
     this.customerService.customerName.subscribe(value => this.customerName = value);
     this.customerService.customerAvatarURL.subscribe(value => this.customerAvatarUrl = value);
-    this.customerService.refreshCustomerAccounts();
 
-    //this.deskService.updateSessionToken();
+    this.customerId = localStorage.getItem("customerID") as string;
 
     this.showMain();
-
   }
 
 

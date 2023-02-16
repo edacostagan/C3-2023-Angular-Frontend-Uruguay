@@ -45,65 +45,42 @@
 
       <nav class="spacer"> </nav>
 
-      <h3>{{accounts[0].id}}</h3>
+      <h3>{{currentCustomerBankAccount}}</h3>
     </mat-toolbar>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="movements"> <!-- movementsDatasource -->
 
-    <table mat-table [dataSource]="movements" class="mat-elevation-z8">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
+          <td mat-cell *matCellDef="let element"> {{element.datetime}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.datetime}} </td>
-      </ng-container>
+        <ng-container matColumnDef="originAccount">
+          <th mat-header-cell *matHeaderCellDef> Origin </th>
+          <td mat-cell *matCellDef="let element"> {{element.accountId}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="originAccount">
-        <th mat-header-cell *matHeaderCellDef> Origin </th>
-        <td mat-cell *matCellDef="let element"> {{element.accountId}} </td>
-      </ng-container>
+        <ng-container matColumnDef="destinationAccount">
+          <th mat-header-cell *matHeaderCellDef> Destination </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="destinationAccount">
-        <th mat-header-cell *matHeaderCellDef> Destination </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-      </ng-container>
+        <ng-container matColumnDef="balance">
+          <th mat-header-cell *matHeaderCellDef> Amount </th>
+          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="balance">
-        <th mat-header-cell *matHeaderCellDef> Amount </th>
-        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
-      </ng-container>
+        <ng-container matColumnDef="concept">
+          <th mat-header-cell *matHeaderCellDef> Concept </th>
+          <td mat-cell *matCellDef="let element"> {{element.accountType}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="concept">
-        <th mat-header-cell *matHeaderCellDef> Concept </th>
-        <td mat-cell *matCellDef="let element"> {{element.accountType}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="movementsDisplayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: movementsDisplayedColumns;"></tr>
-    </table>
-
-  </div>
-</div>
-
+        <tr mat-header-row *matHeaderRowDef="movementsDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: movementsDisplayedColumns;"></tr>
+      </table>
 <!--
-  <div>
-    <mat-card style="margin-top: 10px; width: auto; ">
-      <mat-grid-list cols="4" rowHeight="40px">
-        <mat-grid-tile [colspan]="4" [rowspan]="1">
-          <mat-label>Last Movements: </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label>Date </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label>Type </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label>Amount </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label>Origin</mat-label>
-        </mat-grid-tile>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator> -->
 
-      </mat-grid-list>
-    </mat-card>
+    </div>
   </div>
-</div>
- -->

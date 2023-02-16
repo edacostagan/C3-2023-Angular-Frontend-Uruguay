@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AccountDepositModel, AccountMovementModel } from '../interfaces/account.interface';
 import { TokenResponseModel } from '../interfaces/responses.interface';
@@ -22,16 +22,15 @@ export class AccountService {
    * @returns validation token
    */
   registerNewDeposit(deposit: AccountDepositModel): Observable<TokenResponseModel> {
-
+    
     return this.http.post<TokenResponseModel>(`${environment.API_URL}/deposit/register`, deposit);
+  
   }
 
 
   getDepositsToCurrentAccount(id: string): Observable<AccountMovementModel[] | null> {
 
-
-    return this.http.get<AccountMovementModel[] | null>(`${environment.API_URL}/deposit/${id}`)
-
+     return this.http.get<AccountMovementModel[] | null>(`${environment.API_URL}/deposit/${id}`)
   }
 
 }

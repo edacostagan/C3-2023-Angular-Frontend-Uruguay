@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from '../../../services/customer.service';
 import { AccountModel, AccountDepositModel } from '../../../interfaces/account.interface';
 import { AccountService } from '../../../services/account.service';
+import { MessengerService } from 'src/app/services/messenger.service';
 
 @Component({
   selector: 'app-deposit',
@@ -18,10 +19,11 @@ export class DepositComponent {
   constructor(
     private readonly customerService: CustomerService,
     private readonly accountService: AccountService,
+    private messages: MessengerService,
     private fb: FormBuilder) {
     this.depositForm = this.fb.group({
       destinationAccount: ['', Validators.required],
-      amountToDeposit: ['', Validators.required]
+      amountToDeposit: [0, [Validators.required, Validators.min(1)]]
     })
   }
 
@@ -32,7 +34,6 @@ export class DepositComponent {
 
   }
 
-
   createNewDeposit() {
 
     let amountToDeposit: number = this.depositForm.value.amountToDeposit;
@@ -40,18 +41,25 @@ export class DepositComponent {
 
     const deposit: AccountDepositModel = {
       accountId: destination,
-      amount: amountToDeposit
+      amount: Number(amountToDeposit)
     }
 
-    console.log(this.depositForm.value.destinationAccount)
-
-console.log(deposit);
-
     this.accountService.registerNewDeposit(deposit)
-    .subscribe( response => {
-      console.log(response)
-    })
+      .subscribe(response => {
 
+        if (response.status) {
+          this.messages.infoMsg("Deposit Completed!", "", 4000);
 
-   }
+        } else {
+          this.messages.infoMsg("Deposit Failed!", "", 4000);
+        }
+
+        this.resetForm()
+      })
+  }
+
+  resetForm() {
+    this.customerService.refreshCustomerAccounts(localStorage.getItem("customerID") as string);
+    this.depositForm.reset();
+  }
 }

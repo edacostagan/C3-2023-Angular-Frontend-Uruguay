@@ -98,6 +98,7 @@ export class SignUpComponent {
             localStorage.setItem('customerFullname', data.fullname);
             if(data.avatarUrl) localStorage.setItem('customerImage', data.avatarUrl);
 
+            this.customerService.refreshCustomerAccounts(data.id);
 
             this.transitionToDesktop(true);
           }
