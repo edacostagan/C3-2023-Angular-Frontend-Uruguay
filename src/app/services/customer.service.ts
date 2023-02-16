@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 // Interfaces
 import { CustomerSignInModel, CustomerSignUpModel, CustomerModel } from '../interfaces/customer.interface';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { TokenResponseModel as TokenResponseModel, SigninTokenResponseModel } from '../interfaces/responses.interface';
+import { TokenResponseModel as TokenResponseModel } from '../interfaces/responses.interface';
 import { AccountModel } from '../interfaces/account.interface';
 
 @Injectable({
@@ -75,6 +75,7 @@ export class CustomerService {
 
     if (data != null) {
       this.accounts = JSON.parse(data);
+
       this.customerAccounts.next(JSON.parse(data))
 
       this.updateTotalBalance();

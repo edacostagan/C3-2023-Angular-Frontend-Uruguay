@@ -5,13 +5,12 @@ import jwt_decode from 'jwt-decode';
 
 //Interfaces
 import { CustomerSignUpModel, CustomerModel } from '../../interfaces/customer.interface';
-import { TokenResponseModel, SigninTokenResponseModel } from '../../interfaces/responses.interface';
+import { TokenResponseModel } from '../../interfaces/responses.interface';
 
 //Services
 import { CustomerService } from '../../services/customer.service';
 import { MessengerService } from '../../services/messenger.service';
 import { AuthService } from '../../services/auth.service';
-
 
 
 @Component({
@@ -94,8 +93,6 @@ export class SignUpComponent {
 
             localStorage.setItem('token', token);
             localStorage.setItem('customer', JSON.stringify(data));
-
-console.log(data.id + ' - ' + data)
 
             localStorage.setItem('customerID', data.id);
             localStorage.setItem('customerFullname', data.fullname);

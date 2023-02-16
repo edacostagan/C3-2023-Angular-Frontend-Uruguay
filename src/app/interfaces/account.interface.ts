@@ -14,3 +14,8 @@ export interface AccountTypeModel{
   name: string;
   state: boolean;
 }
+
+export interface AccountDepositModel{
+  accountId: string;
+  amount: number;
+}

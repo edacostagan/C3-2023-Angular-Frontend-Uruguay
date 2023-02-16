@@ -1,27 +1,40 @@
 <div class="container" style="margin-top: 10px;">
   <div>
-    <mat-card style="margin: 10px auto; width: 60%; background-color: rgba(65, 66, 62, 0.6);">
-      <h1 style="color:antiquewhite "> New Deposit </h1>
+    <mat-card style="margin: 10px auto; width: 60%; ">
+      <h1> New Deposit </h1>
 
-      <mat-grid-list cols="3" rowHeight="70px">
+      <form [formGroup]="depositForm" (ngSubmit)="createNewDeposit()" style="margin-top: 30px;">
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label class="datalabel">Account Id: </mat-label>
-        </mat-grid-tile>
+        <mat-grid-list cols="3" rowHeight="70px">
 
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-          <mat-label class="datafield"> Mi cuenta - esto deberia ser un select con todas las cuentas </mat-label>
-        </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1" style="background-color: darkgray;">
+            <mat-label> Destination Account: </mat-label>
+          </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label class="datalabel">Amount: $  </mat-label>
-        </mat-grid-tile>
+          <mat-grid-tile [colspan]="2" [rowspan]="1" style="background-color: darkgray;">
+            <mat-select formControlName="destinationAccount" style=" width: 80%;">
+              <mat-option *ngFor="let item of accounts" [value]="item"> {{(item.id)}} </mat-option>
+            </mat-select>
+          </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-          <mat-label class="datafield"> esto es un input </mat-label>
-        </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1" style="background-color: darkgray;">
+            <mat-label>Amount: $ </mat-label>
+          </mat-grid-tile>
 
-      </mat-grid-list>
+          <mat-grid-tile [colspan]="2" [rowspan]="1" style="background-color: darkgray;">
+            <mat-form-field >
+              <input matInput autocomplete="off" formControlName="amountToDeposit">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="3" [rowspan]="1">
+            <button class="signup-button" type="submit" [disabled]="depositForm.invalid" mat-raised-button
+              color="accent">Make Deposit</button>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+
+      </form>
+
     </mat-card>
   </div>
 </div>
