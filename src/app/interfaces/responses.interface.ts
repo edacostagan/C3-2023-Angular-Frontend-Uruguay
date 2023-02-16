@@ -1,4 +1,4 @@
-export interface SigninResponseModel {
+export interface TokenResponseModel {
   status: boolean;
   token: string;
 }

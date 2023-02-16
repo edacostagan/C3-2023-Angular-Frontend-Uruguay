@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountModel } from '../../../interfaces/account.interface';
-import { DesktopService } from '../../../services/desktop.service';
+
+import { CustomerService } from '../../../services/customer.service';
 
 @Component({
   selector: 'app-details',
@@ -12,20 +13,20 @@ export class DetailsComponent implements OnInit {
   accounts!: AccountModel[] ;
 
   constructor(
-    private deskService: DesktopService,
+
+    private customerService: CustomerService,
 
   ){}
 
 
-
   ngOnInit(): void {
 
+    this.customerService.customerAccounts.subscribe(value => this.accounts = value);
 
+  }
 
-    this.deskService.accounts.subscribe(value => this.accounts = value);
-
-    console.log(this.accounts)
-
+  refreshAccounts(){
+    this.customerService.updateCustomerAccounts();
   }
 
 }

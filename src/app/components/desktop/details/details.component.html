@@ -1,10 +1,15 @@
 <div class="container" style="margin-top: 10px;">
   <div>
     <mat-card style="margin-top: 10px; width: auto; ">
-      <mat-grid-list cols="3" rowHeight="40px">
+      <mat-grid-list cols="3" rowHeight="50px">
 
         <mat-grid-tile [colspan]="3" [rowspan]="1">
-          <mat-label>Accounts</mat-label>
+          <nav class="spacer"></nav>
+          <mat-label style="font-size: large;">Accounts</mat-label>
+          <nav class="spacer"></nav>
+          <button mat-icon-button color="warn" onclick="(refreshAccounts())">
+            <mat-icon>refresh</mat-icon>
+          </button>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="1" [rowspan]="1">

@@ -2,13 +2,14 @@ export interface CustomerModel {
   id: string;
   documentType: DocumentTypeModel;
   document: string;
-  fullName: string;
+  fullname: string;
   email: string;
-  phone: number;
+  phone: string;
   password: string;
   avatarUrl?: string;
   state: boolean;
-  daletedAt?: Date | number;
+  deletedAt?: Date | number;
+
 }
 
 export interface DocumentTypeModel {

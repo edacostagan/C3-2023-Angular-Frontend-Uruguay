@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
 
 //Interfaces
-import { CustomerSignUpModel } from '../../interfaces/customer.interface';
-import { SigninResponseModel, SigninTokenResponseModel } from '../../interfaces/responses.interface';
+import { CustomerSignUpModel, CustomerModel } from '../../interfaces/customer.interface';
+import { TokenResponseModel, SigninTokenResponseModel } from '../../interfaces/responses.interface';
 
 //Services
 import { CustomerService } from '../../services/customer.service';
@@ -82,20 +82,25 @@ export class SignUpComponent {
     this.customerService.addNewCustomer(customer)
       .subscribe({
         next: (signupResponse) => {
-          const responseValue: SigninResponseModel = signupResponse as unknown as SigninResponseModel;
+          const responseValue: TokenResponseModel = signupResponse as unknown as TokenResponseModel;
 
           if (responseValue.status) {
 
             this.messages.infoMsg("New Customer created successfully!", "", 2000);
 
             const token = responseValue.token;
-            const decoded: SigninTokenResponseModel = jwt_decode(token) as SigninTokenResponseModel;
-            const account = decoded.id;
-
-            console.log('account: ' + account + ' - ' + token)
+            const decoded: any = jwt_decode(token);
+            const data: CustomerModel = decoded.data;
 
             localStorage.setItem('token', token);
-            localStorage.setItem('currentAccount', account);
+            localStorage.setItem('customer', JSON.stringify(data));
+
+console.log(data.id + ' - ' + data)
+
+            localStorage.setItem('customerID', data.id);
+            localStorage.setItem('customerFullname', data.fullname);
+            if(data.avatarUrl) localStorage.setItem('customerImage', data.avatarUrl);
+
 
             this.transitionToDesktop(true);
           }

@@ -11,8 +11,8 @@ import { CustomerService } from '../../services/customer.service';
 
 
 // Interfaces
-import { CustomerSignInModel } from '../../interfaces/customer.interface';
-import { SigninResponseModel, SigninTokenResponseModel } from '../../interfaces/responses.interface';
+import { CustomerSignInModel, CustomerModel } from '../../interfaces/customer.interface';
+import { TokenResponseModel as TokenResponseModel, SigninTokenResponseModel } from '../../interfaces/responses.interface';
 import { AuthService } from '../../services/auth.service';
 
 
@@ -74,17 +74,39 @@ export class SignInComponent {
   loginWithGoogle() {
     this.authService.loginWithFirebase()
       .then(result => {
-
         const user = result.user;
 
-        this.customerService.findCustomerByEmail(user.email)
-          .subscribe(
-            userData => {
+        if (user.email != null) {
 
-              localStorage.setItem('customerID', userData.id);
-              this.transitionToDesktop(true);
-            })
+          this.customerService.findCustomerByEmail(user.email)
+            .subscribe({
+              next: (signInResponse) => {
 
+                const responseValue: TokenResponseModel = signInResponse as unknown as TokenResponseModel;
+
+                if (responseValue.status) {
+
+                  const token = responseValue.token;
+                 // const decoded: CustomerModel = jwt_decode(token) as CustomerModel;
+                 // const account = decoded.id;
+                  let decoded: any = jwt_decode(token) ;
+                  const data: CustomerModel = decoded.data;
+
+                  localStorage.setItem('token', token);
+                  localStorage.setItem('customerID', data.id);
+                  localStorage.setItem('customer', JSON.stringify(data));
+                  if(user.displayName != null) localStorage.setItem('customerFullname', user.displayName);
+                  if(user.photoURL != null)localStorage.setItem('customerImage', user.photoURL);
+
+                  this.transitionToDesktop(true);
+                }
+              },
+              error: (e) => {
+                this.transitionToDesktop(false);
+              }
+            }
+            )
+        }
       }).catch(error => { console.log(error) })
   }
 
@@ -101,16 +123,20 @@ export class SignInComponent {
       .subscribe({
         next: (signInResponse) => {
 
-          const responseValue: SigninResponseModel = signInResponse as unknown as SigninResponseModel;
+          const responseValue: TokenResponseModel = signInResponse as unknown as TokenResponseModel;
 
           if (responseValue.status) {
 
             const token = responseValue.token;
-            const decoded: SigninTokenResponseModel = jwt_decode(token) as SigninTokenResponseModel;
-            const account = decoded.id;
 
-            //localStorage.setItem('token', token);
-            localStorage.setItem('customerID', account);
+            let decoded: any = jwt_decode(token) ;
+            const data: CustomerModel = decoded.data;
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('customer', JSON.stringify(data));
+            localStorage.setItem('customerID', data.id);
+            localStorage.setItem('customerFullname', data.fullname);
+            if(data.avatarUrl) localStorage.setItem('customerImage', data.avatarUrl);
 
             this.transitionToDesktop(true);
           }

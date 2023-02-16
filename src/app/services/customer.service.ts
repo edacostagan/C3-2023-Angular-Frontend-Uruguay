@@ -5,8 +5,8 @@ import { environment } from '../../environments/environment';
 
 // Interfaces
 import { CustomerSignInModel, CustomerSignUpModel, CustomerModel } from '../interfaces/customer.interface';
-import { Observable } from 'rxjs';
-import { SigninResponseModel } from '../interfaces/responses.interface';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { TokenResponseModel as TokenResponseModel, SigninTokenResponseModel } from '../interfaces/responses.interface';
 import { AccountModel } from '../interfaces/account.interface';
 
 @Injectable({
@@ -14,28 +14,85 @@ import { AccountModel } from '../interfaces/account.interface';
 })
 export class CustomerService {
 
+  customerData: BehaviorSubject<{}> = new BehaviorSubject({});
+  customerAccounts: BehaviorSubject<[]> = new BehaviorSubject([]);
 
+  customerId: BehaviorSubject<string> = new BehaviorSubject("");
+  customerName: BehaviorSubject<string> = new BehaviorSubject("");
+  customerAvatarURL: BehaviorSubject<string> = new BehaviorSubject("");
+
+  customerID: string = localStorage.getItem("customerID") as string;
 
   constructor(
     private http: HttpClient,
   ) { }
+
+
+  updateCustomerId(newId: string) {
+    this.customerId.next(newId);
+  }
+
+  updateCustomerName(newName: string) {
+
+    this.customerName.next(newName);
+  }
+
+  updateCustomerAvatarURL(newUrl: string) {
+    this.customerAvatarURL.next(newUrl);
+  }
+
+  /**
+     * Gets de Customer information data from localstorage
+     * and parse it into an array
+     * The info changes are monitored by a state Management
+     */
+  updateCustomerData() {
+
+    const customer = localStorage.getItem("customer");
+
+    if (customer == null) {
+      this.getCustomerData(this.customerID);
+    }
+    if (customer != null) {
+      let data = JSON.parse(customer)
+      this.customerData.next(data);
+    }
+  }
+
+  /**
+     * Gets the user accounts data from localstorage
+     * and parse it into an manageable array
+     * The info changes are monitored by a state Management
+     */
+  updateCustomerAccounts() {
+
+
+    this.getCustomerAccounts(this.customerID);
+
+    const data = localStorage.getItem("accounts");
+
+    if (data != null) {
+      this.customerAccounts.next(JSON.parse(data))
+    }
+  }
+
 
   /**
    * Makes a request to Backend to register a new customer
    * @param customer customer entity data
    * @returns validation token
    */
-  addNewCustomer(customer: CustomerSignUpModel): Observable<SigninResponseModel> {
+  addNewCustomer(customer: CustomerSignUpModel): Observable<TokenResponseModel> {
 
-    return this.http.post<SigninResponseModel>(`${environment.API_URL}/security/signup`, customer);
+    return this.http.post<TokenResponseModel>(`${environment.API_URL}/security/signup`, customer);
   }
 
   /**
    * Makes a request to backend with customer credentials
    */
-  customerSignin(customer: CustomerSignInModel): Observable<SigninResponseModel> {
+  customerSignin(customer: CustomerSignInModel): Observable<TokenResponseModel> {
 
-    return this.http.post<SigninResponseModel>(`${environment.API_URL}/security/signin`, customer);
+    return this.http.post<TokenResponseModel>(`${environment.API_URL}/security/signin`, customer);
 
   }
 
@@ -44,6 +101,7 @@ export class CustomerService {
    * @param id id to search
    */
   getCustomerData(id: string) {
+
 
     this.http.get(`${environment.API_URL}/customer/${id}`, {})
       .subscribe({
@@ -54,6 +112,7 @@ export class CustomerService {
           localStorage.setItem("customer", JSON.stringify(responseValue));
         },
       })
+
   }
 
   /**
@@ -61,9 +120,9 @@ export class CustomerService {
    * @param email data to be found
    * @returns
    */
-  findCustomerByEmail(email: string | null): Observable<CustomerModel> {
+  findCustomerByEmail(email: string): Observable<TokenResponseModel> {
 
-    return this.http.get<CustomerModel>(`${environment.API_URL}/customer/email/${email}`)
+    return this.http.get<TokenResponseModel>(`${environment.API_URL}/customer/email/${email}`)
 
   }
   /**
@@ -76,7 +135,7 @@ export class CustomerService {
       .subscribe({
         next: (response) => {
 
-          const responseValue = response as unknown as AccountModel;
+          const responseValue: AccountModel[]  = response as unknown as AccountModel [];
 
           localStorage.setItem("accounts", JSON.stringify(responseValue));
         },

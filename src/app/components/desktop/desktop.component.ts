@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DesktopService } from 'src/app/services/desktop.service';
+import { DesktopService } from '../../services/desktop.service';
 import { CustomerService } from '../../services/customer.service';
 
 
@@ -17,11 +17,9 @@ export class DesktopComponent implements OnInit {
   showDepositPage: boolean = false;
   showTransferPage: boolean = false;
 
-
-  currentAccount: string = "";
-  currentBalance: number = 0;
-  customerName: string = '';
-
+  customerId!: string;
+  customerName!: string;
+  customerAvatarUrl!: string;
 
 
   constructor(
@@ -31,15 +29,17 @@ export class DesktopComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.currentAccount = loadCustomerID();
-    this.customerService.getCustomerData(this.currentAccount);
-    this.customerService.getCustomerAccounts(loadCustomerID()) ;
+    this.customerService.updateCustomerData();
 
-    this.currentBalance = getCustomerBalance();
-    this.customerName = getCustomerName();
+    this.customerService.updateCustomerName(localStorage.getItem('customerFullname') as string);
 
+    this.customerService.customerId.subscribe(value => this.customerId = value);
+    this.customerService.customerName.subscribe(value => this.customerName = value);
+    this.customerService.customerAvatarURL.subscribe(value => this.customerAvatarUrl = value);
+    this.customerService.updateCustomerAccounts();
 
-    this.deskService.updateUserAccounts();
+    //this.deskService.updateSessionToken();
+
     this.showMain();
 
   }
@@ -77,32 +77,6 @@ export class DesktopComponent implements OnInit {
 
 }
 
-function loadCustomerID() : string {
 
-  let account = localStorage.getItem('customerID');
-  if(account === null) account = "";
-
-  return account;
-}
-
-function getCustomerBalance(): number {
-
-  //TODO: recorrer todas las cuentas del cliente y sumar los balances
-return 0;
-
-}
-
-function getCustomerName(): string {
-
-  let name: string = "";
-  let customerData = localStorage.getItem("customer");
-
-  if( customerData != null) {
-    let jsonObj = JSON.parse(customerData);
-    name = jsonObj.fullname;
-  }
-  return name;
-
-}
 
 

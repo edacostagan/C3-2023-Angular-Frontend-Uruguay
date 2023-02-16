@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerModel } from '../../../interfaces/customer.interface';
-
+import { CustomerModel } from 'src/app/interfaces/customer.interface';
+import { CustomerService } from '../../../services/customer.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,40 +9,26 @@ import { CustomerModel } from '../../../interfaces/customer.interface';
 })
 export class ProfileComponent implements OnInit {
 
+  token: string = localStorage.getItem('token') as string;
 
-  token: string | null = ""
-  show: string = "";
+  constructor(
+    private customerService: CustomerService,
 
-  data = localStorage.getItem("customer");
+  ){}
 
-  customerData: any = ""; //{} = {} as CustomerModel;
+  customerData!: CustomerModel;
 
   ngOnInit(): void {
 
-    this.token = localStorage.getItem("token");
-    this.data = localStorage.getItem("customer");
+    this.customerService.updateCustomerData();
 
-    if (this.data != null) {
-      this.customerData =  JSON.parse(this.data)
-
-
-      console.log(this.customerData as CustomerModel)
-    }
-
+    this.customerService.customerData.subscribe(value => this.customerData = value as CustomerModel);
 
   }
 
-
-
-
 }
 
 
-
-function extractCustomerData(data: string): string {
-
-  return JSON.parse(data) ;
-}
 
 
 

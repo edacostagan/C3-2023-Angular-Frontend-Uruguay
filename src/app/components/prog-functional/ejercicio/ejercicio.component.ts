@@ -62,7 +62,7 @@ export class EjercicioComponent {
   findById(id: string) {
     from(this.customers).pipe(
       filter(i => i.id === id && i.state === true),
-      map(i => `Customer with ID: ${id} - ${i.fullName} Found!`),
+      map(i => `Customer with ID: ${id} - ${i.fullname} Found!`),
     ).subscribe((data) => this.currentUser = data)
   }
 
@@ -104,7 +104,7 @@ export class EjercicioComponent {
      */
   getCustomersFullNameAndId(customers: CustomerModel[], fn: (str: string[]) => string) {
 
-    const customersInfo = customers.map(c => `Customer: ${c.fullName} has de Document: ${c.document} `);
+    const customersInfo = customers.map(c => `Customer: ${c.fullname} has de Document: ${c.document} `);
     return fn(customersInfo);
   }
 
@@ -173,7 +173,7 @@ export class EjercicioComponent {
    * @returns array of strings
    */
   public showIdAndFullnameAllCustomers(list: CustomerModel[]): string[] {
-    return list.map(e => `ID: ${e.id} -> Name: ${e.fullName} `);
+    return list.map(e => `ID: ${e.id} -> Name: ${e.fullname} `);
   }
 
   getAllEmails(customers: CustomerModel[]): string[] {
