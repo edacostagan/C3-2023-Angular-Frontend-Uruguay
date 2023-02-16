@@ -12,6 +12,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatGridListModule} from '@angular/material/grid-list';
+import { MatTableModule } from '@angular/material/table';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 
 
 const component = [
@@ -26,7 +29,9 @@ const component = [
   MatSidenavModule,
   MatProgressSpinnerModule,
   MatSnackBarModule,
-  MatGridListModule
+  MatGridListModule,
+  MatTableModule,
+  MatTooltipModule
 ];
 
 
@@ -44,6 +49,8 @@ const component = [
     MatSidenavModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatTableModule,
+    MatTooltipModule
 
   ],
   exports: [

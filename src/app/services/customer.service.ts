@@ -14,6 +14,7 @@ import { AccountModel } from '../interfaces/account.interface';
 })
 export class CustomerService {
 
+
   customerData: BehaviorSubject<{}> = new BehaviorSubject({});
   customerAccounts: BehaviorSubject<[]> = new BehaviorSubject([]);
   customerTotalBalance: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -48,7 +49,7 @@ export class CustomerService {
      * and parse it into an array
      * The info changes are monitored by a state Management
      */
-  updateCustomerData() {
+  refreshCustomerData() {
 
     const customer = localStorage.getItem("customer");
 
@@ -66,8 +67,7 @@ export class CustomerService {
      * and parse it into an manageable array
      * The info changes are monitored by a state Management
      */
-  updateCustomerAccounts() {
-
+  refreshCustomerAccounts() {
 
     this.getCustomerAccounts(this.customerID);
 
@@ -119,8 +119,7 @@ export class CustomerService {
    */
   getCustomerData(id: string) {
 
-
-    this.http.get(`${environment.API_URL}/customer/${id}`, {})
+    this.http.get(`${environment.API_URL}/customer/${id}`) //, {}
       .subscribe({
         next: (response) => {
 
@@ -129,8 +128,16 @@ export class CustomerService {
           localStorage.setItem("customer", JSON.stringify(responseValue));
         },
       })
-
   }
+
+
+  /**
+  * Updates the customer information in the DB
+  *
+  * */
+  updateCustomerData (id: string, customer: CustomerModel) {
+    return this.http.put<TokenResponseModel>(`${environment.API_URL}customer/update/${id}`, customer)
+ }
 
   /**
    * Search the database for the customer with the given email
@@ -148,7 +155,7 @@ export class CustomerService {
    */
   getCustomerAccounts(id: string) {
 
-    this.http.get<AccountModel>(`${environment.API_URL}/account/customer/${id}`, {})
+    this.http.get<AccountModel>(`${environment.API_URL}/account/customer/${id}`)//, {}
       .subscribe({
         next: (response) => {
 

@@ -11,6 +11,10 @@ import { AccountService } from '../../../services/account.service';
 })
 export class DepositComponent {
 
+
+  depositForm: FormGroup;
+  accounts!: AccountModel[];
+
   constructor(
     private readonly customerService: CustomerService,
     private readonly accountService: AccountService,
@@ -20,9 +24,6 @@ export class DepositComponent {
       amountToDeposit: ['', Validators.required]
     })
   }
-
-  depositForm: FormGroup;
-  accounts!: AccountModel[];
 
 
   ngOnInit(): void {
@@ -34,12 +35,16 @@ export class DepositComponent {
 
   createNewDeposit() {
 
+    let amountToDeposit: number = this.depositForm.value.amountToDeposit;
+    let destination: string = this.depositForm.value.destinationAccount.id;
+
     const deposit: AccountDepositModel = {
-      accountId: this.depositForm.value.destinationAccount.id ,
-      amount: this.depositForm.value.amountToDeposit as number
+      accountId: destination,
+      amount: amountToDeposit
     }
 
     console.log(this.depositForm.value.destinationAccount)
+
 console.log(deposit);
 
     this.accountService.registerNewDeposit(deposit)
