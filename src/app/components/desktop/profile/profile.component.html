@@ -4,53 +4,69 @@
       <h1 style="color:antiquewhite "> Profile</h1>
       <nav class="spacer"></nav>
       <button>Actualizar Datos del cliente </button>
-      <mat-grid-list cols="3" rowHeight="70px">
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label class="datalabel">Account Id: </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-          <mat-label class="datafield">{{customerData.id}}</mat-label>
-        </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label class="datalabel">Full Name: </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-          <mat-label class="datafield">{{customerData.fullname}}</mat-label>
-        </mat-grid-tile>
+      <form [formGroup]="profileForm" (ngSubmit)="updateCustomerData()">
+        <mat-grid-list cols="1" rowHeight="70px">
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label class="datalabel">Document Id: </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-          <mat-label class="datafield">{{customerData.document}}</mat-label>
-        </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-form-field class="datafield">
+              <mat-label> Full Name: </mat-label>
+              <input matInput autocomplete="off" formControlName="fullname">
+            </mat-form-field>
+          </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label class="datalabel">Document Type: </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-          <mat-label class="datafield">{{customerData.documentType.name}}</mat-label> <!--  -->
-        </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-form-field class="datafield">
+              <mat-label>E-Mail:</mat-label>
+              <input matInput autocomplete="off" formControlName="email">
+            </mat-form-field>
+          </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label class="datalabel">Phone: </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-          <mat-label class="datafield">{{customerData.phone}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-label class="datalabel">E-Mail: </mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-          <mat-label class="datafield">{{customerData.email}}</mat-label>
-        </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-form-field class="datafield">
+              <mat-label> ID Document: </mat-label>
+              <input matInput autocomplete="off" formControlName="document">
+            </mat-form-field>
 
-        <mat-grid-tile [colspan]="3" [rowspan]="3">
-          <mat-label style="font-size: x-small;">Session ID: {{token}}</mat-label>
-        </mat-grid-tile>
-      </mat-grid-list>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-form-field class="datafield">
+              <mat-label>Document Type: </mat-label>
+              <mat-select formControlName="documentType">
+                <mat-option *ngFor="let item of documentTypes" [value]="item"> {{item}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
 
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-form-field class="datafield">
+              <mat-label>Phone: </mat-label>
+              <input matInput autocomplete="off" formControlName="phone">
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-form-field class="datafield">
+              <mat-label>Avatar URL: </mat-label>
+              <input matInput autocomplete="off" formControlName="avatarUrl">
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-form-field class="datafield">
+              <mat-label>Password: </mat-label>
+              <input [type]="hidePass ? 'password' : 'text'" matInput autocomplete="off" formControlName="password">
+              <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility_off' :
+                'visibility'}}</mat-icon>
+              <mat-hint *ngIf="!profileForm.value.password">Enter your password</mat-hint>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
+            <mat-label style="font-size: x-small;">Session ID: {{token}}</mat-label>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
 
     </mat-card>
   </div>
