@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountModel } from '../../../interfaces/account.interface';
+import { AccountModel, AccountMovementModel } from '../../../interfaces/account.interface';
 
 import { CustomerService } from '../../../services/customer.service';
+import { AccountService } from '../../../services/account.service';
 
 @Component({
   selector: 'app-details',
@@ -10,15 +11,19 @@ import { CustomerService } from '../../../services/customer.service';
 })
 export class DetailsComponent implements OnInit {
 
-  accounts!: AccountModel[] ;
-  totalBalance: number = 0 ;
+  accounts!: AccountModel[];
+  movements!: AccountMovementModel[];
 
+  totalBalance: number = 0 ;
+  currentCustomerBankAccount: string = "";
+
+  accountsDisplayedColumns: string[] = ['id', 'accountType', 'balance', 'actions'];
+  movementsDisplayedColumns: string[] = ['date', 'originAccount', 'destinationAccount', 'balance', 'concept'];
 
 
   constructor(
-
     private customerService: CustomerService,
-
+    private accountService: AccountService,
   ){}
 
 
@@ -27,10 +32,19 @@ export class DetailsComponent implements OnInit {
     this.customerService.customerAccounts.subscribe(value => this.accounts = value);
     this.customerService.customerTotalBalance.subscribe(value => this.totalBalance = value);
 
+    this.currentCustomerBankAccount = this.accounts[0].id
+
+    this.refreshCurrentAccountMovements();
   }
 
+  refreshCurrentAccountMovements() {
 
+    const tempMovements: any = this.accountService.getDepositsToCurrentAccount(this.currentCustomerBankAccount);
+
+    if( tempMovements != null){
+      this.movements = tempMovements;
+    }
+
+  }
 
 }
-
-

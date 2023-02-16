@@ -19,3 +19,12 @@ export interface AccountDepositModel{
   accountId: string;
   amount: number;
 }
+
+export interface AccountMovementModel{
+  id: string;
+  originAccountId: string;
+  destinationAccountId: string,
+  amount: number;
+  reason: string,
+  datetime: number;
+}
