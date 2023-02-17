@@ -151,7 +151,7 @@ export class CustomerService {
 
     const res = this.http.put(`${environment.API_URL}customer/update/${id}`, customer)
 
-    console.log(res);
+    console.log(res)
 
     this.refreshCustomerData(id);
   }

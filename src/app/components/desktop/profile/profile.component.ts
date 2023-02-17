@@ -133,6 +133,10 @@ export class ProfileComponent implements OnInit {
     const customer: CustomerModel = this.profileForm.getRawValue();
 
     customer.password = this.customerData.password;
+    customer.id = this.customerId;
+    customer.avatarUrl = ''
+
+    console.log(customer)
 
     this.customerService.updateCustomerData(this.customerData.id, customer)
 
