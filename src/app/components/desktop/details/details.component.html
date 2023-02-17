@@ -24,8 +24,8 @@
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" style="text-align: right;">
-          <a class="pointer" matTooltip="Show movements for this account">
+        <td mat-cell *matCellDef="let element; let idx = index" style="text-align: right;" >
+          <a class="pointer" (click)="getAccountId(idx)" matTooltip="Show movements for this account">
             <mat-icon>search</mat-icon>
           </a>
         </td>
@@ -48,11 +48,11 @@
       <h3>{{currentCustomerBankAccount}}</h3>
     </mat-toolbar>
     <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="movements"> <!-- movementsDatasource -->
+      <table mat-table [dataSource]="movementsDatasource">
 
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef> Date </th>
-          <td mat-cell *matCellDef="let element"> {{element.datetime}} </td>
+          <td mat-cell *matCellDef="let element"> {{convertToDateFormat(element.dateTime)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="originAccount">
@@ -72,15 +72,15 @@
 
         <ng-container matColumnDef="concept">
           <th mat-header-cell *matHeaderCellDef> Concept </th>
-          <td mat-cell *matCellDef="let element"> {{element.accountType}} </td>
+          <td mat-cell *matCellDef="let element"> Deposit </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="movementsDisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: movementsDisplayedColumns;"></tr>
       </table>
-<!--
+
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-      </mat-paginator> -->
+      </mat-paginator>
 
     </div>
   </div>

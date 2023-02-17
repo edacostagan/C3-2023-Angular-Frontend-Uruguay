@@ -22,15 +22,19 @@ export class AccountService {
    * @returns validation token
    */
   registerNewDeposit(deposit: AccountDepositModel): Observable<TokenResponseModel> {
-    
+
     return this.http.post<TokenResponseModel>(`${environment.API_URL}/deposit/register`, deposit);
-  
+
   }
 
 
-  getDepositsToCurrentAccount(id: string): Observable<AccountMovementModel[] | null> {
+  getDepositsToCurrentAccount(id: string) {
 
-     return this.http.get<AccountMovementModel[] | null>(`${environment.API_URL}/deposit/${id}`)
+    this.http.get<AccountMovementModel[]>(`${environment.API_URL}/deposit/${id}`)
+    .subscribe( result => {
+      localStorage.setItem('accountMovements', JSON.stringify(result));
+    }
+    )
   }
 
 }

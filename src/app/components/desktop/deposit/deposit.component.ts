@@ -4,6 +4,8 @@ import { CustomerService } from '../../../services/customer.service';
 import { AccountModel, AccountDepositModel } from '../../../interfaces/account.interface';
 import { AccountService } from '../../../services/account.service';
 import { MessengerService } from 'src/app/services/messenger.service';
+import { DesktopComponent } from '../desktop.component';
+import { DetailsComponent } from '../details/details.component';
 
 @Component({
   selector: 'app-deposit',
@@ -17,9 +19,11 @@ export class DepositComponent {
   accounts!: AccountModel[];
 
   constructor(
-    private readonly customerService: CustomerService,
-    private readonly accountService: AccountService,
+    private customerService: CustomerService,
+    private accountService: AccountService,
     private messages: MessengerService,
+    private deskComp: DesktopComponent,
+
     private fb: FormBuilder) {
     this.depositForm = this.fb.group({
       destinationAccount: ['', Validators.required],
@@ -50,6 +54,11 @@ export class DepositComponent {
         if (response.status) {
           this.messages.infoMsg("Deposit Completed!", "", 4000);
 
+          this.accountService.getDepositsToCurrentAccount(destination);
+
+            this.deskComp.showMain();
+
+
         } else {
           this.messages.infoMsg("Deposit Failed!", "", 4000);
         }
@@ -62,4 +71,6 @@ export class DepositComponent {
     this.customerService.refreshCustomerAccounts(localStorage.getItem("customerID") as string);
     this.depositForm.reset();
   }
+
+
 }

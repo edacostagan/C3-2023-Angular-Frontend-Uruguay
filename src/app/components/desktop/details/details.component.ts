@@ -17,7 +17,7 @@ export class DetailsComponent implements OnInit {
   accounts!: AccountModel[];
   movements!: AccountMovementModel[];
 
-  //movementsDatasource: MatTableDataSource<AccountMovementModel> = new MatTableDataSource(this.movements);
+  movementsDatasource!: MatTableDataSource<any>; // = new MatTableDataSource(this.movements);
 
   totalBalance: number = 0;
   currentCustomerBankAccount: string = "";
@@ -25,7 +25,7 @@ export class DetailsComponent implements OnInit {
   accountsDisplayedColumns: string[] = ['id', 'accountType', 'balance', 'actions'];
   movementsDisplayedColumns: string[] = ['date', 'originAccount', 'destinationAccount', 'balance', 'concept'];
 
-  //@ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private customerService: CustomerService,
@@ -43,23 +43,44 @@ export class DetailsComponent implements OnInit {
     this.customerService.refreshCustomerData(id);
     this.customerService.refreshCustomerAccounts(id)
 
-    if(this.accounts.length != 0)    this.currentCustomerBankAccount = this.accounts[0].id
-
-    //this.customerService.refreshCustomerAccounts(this.currentCustomerBankAccount);
+    if(this.accounts.length > 0)  this.currentCustomerBankAccount = this.accounts[0].id
 
     this.refreshCurrentAccountMovements();
+
+    console.log(this.movements)
   }
 
-  //ngAfterViewInit() {
- //   this.movementsDatasource.paginator = this.paginator;
-  //}
 
-  refreshCurrentAccountMovements() : any {
-
-     return this.accountService.getDepositsToCurrentAccount(this.currentCustomerBankAccount);
+  ngAfterViewInit() {
+    this.movementsDatasource.paginator = this.paginator;
+  }
 
 
+  //Gets the index of the account clicked in the accounts form
+  getAccountId(idx: number){
 
+    this.currentCustomerBankAccount = this.accounts[idx].id;
+
+    this.refreshCurrentAccountMovements();
+
+    this.movementsDatasource._renderChangesSubscription;
+
+  }
+
+
+  refreshCurrentAccountMovements()  {
+
+    this.accountService.getDepositsToCurrentAccount(this.currentCustomerBankAccount);
+
+    this.movements = JSON.parse( localStorage.getItem('accountMovements') as string);
+
+    this.movementsDatasource = new MatTableDataSource(this.movements);
+  }
+
+
+  convertToDateFormat(datetime: number){
+
+    return new Date(datetime).toLocaleDateString('es-ES');
   }
 
 }

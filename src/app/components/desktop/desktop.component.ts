@@ -28,6 +28,7 @@ export class DesktopComponent implements OnInit {
   ngOnInit(): void {
 
     this.customerService.updateCustomerName(localStorage.getItem('customerFullname') as string);
+
     this.customerService.customerId.subscribe(value => this.customerId = value);
     this.customerService.customerName.subscribe(value => this.customerName = value);
     this.customerService.customerAvatarURL.subscribe(value => this.customerAvatarUrl = value);
