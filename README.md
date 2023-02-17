@@ -15,7 +15,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ```bash
 # Title of the delivery
-[Workshop Week 4 - Day 2] - Angular ( Firebase / State Management )
+[Workshop Week 4 - Day 4] -  Angular Final Challenge
 
 # Body of the delivery
 What is being delivered?
