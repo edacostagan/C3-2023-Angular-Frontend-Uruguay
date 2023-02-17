@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../components/shared/confirm-dialog/confirm-dialog.component';
 
 
 @Injectable({
@@ -7,10 +9,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MessengerService {
 
+  confirmationResult!: boolean;
   constructor(
     private messenger: MatSnackBar,
 
   ) { }
+
 
 
   /**

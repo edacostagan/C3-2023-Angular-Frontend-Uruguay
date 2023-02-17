@@ -38,26 +38,28 @@ export class DetailsComponent implements OnInit {
     this.customerService.customerAccounts.subscribe(value => this.accounts = value);
     this.customerService.customerTotalBalance.subscribe(value => this.totalBalance = value);
 
-    const id= localStorage.getItem("customerID") as string;
+    const id = localStorage.getItem("customerID") as string;
 
     this.customerService.refreshCustomerData(id);
     this.customerService.refreshCustomerAccounts(id)
 
-    if(this.accounts.length > 0)  this.currentCustomerBankAccount = this.accounts[0].id
+    if (this.accounts.length > 0) this.currentCustomerBankAccount = this.accounts[0].id
 
     this.refreshCurrentAccountMovements();
 
-    console.log(this.movements)
   }
 
 
   ngAfterViewInit() {
-    this.movementsDatasource.paginator = this.paginator;
+
+    if (this.movementsDatasource.data != null)
+      this.movementsDatasource.paginator = this.paginator;
+
   }
 
 
   //Gets the index of the account clicked in the accounts form
-  getAccountId(idx: number){
+  getAccountId(idx: number) {
 
     this.currentCustomerBankAccount = this.accounts[idx].id;
 
@@ -68,17 +70,17 @@ export class DetailsComponent implements OnInit {
   }
 
 
-  refreshCurrentAccountMovements()  {
+  refreshCurrentAccountMovements() {
 
     this.accountService.getDepositsToCurrentAccount(this.currentCustomerBankAccount);
 
-    this.movements = JSON.parse( localStorage.getItem('accountMovements') as string);
+    this.movements = JSON.parse(localStorage.getItem('accountMovements') as string);
 
     this.movementsDatasource = new MatTableDataSource(this.movements);
   }
 
 
-  convertToDateFormat(datetime: number){
+  convertToDateFormat(datetime: number) {
 
     return new Date(datetime).toLocaleDateString('es-ES');
   }

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent, ConfirmDialogModel } from './components/shared/confirm-dialog/confirm-dialog.component';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -10,6 +12,7 @@ export class AppComponent  {
 
   constructor(
     public authService: AuthService,
+
   ){}
 
   isLoggingIn: boolean = false;

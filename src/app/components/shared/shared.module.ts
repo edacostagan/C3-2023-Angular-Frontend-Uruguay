@@ -6,6 +6,7 @@ import { MaterialModule } from './material/material.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 
 
@@ -13,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     NavbarComponent,
     FooterComponent,
+    ConfirmDialogComponent,
 
 
   ],

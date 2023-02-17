@@ -16,7 +16,7 @@
         </div>
       </mat-toolbar>
 
-      <form [formGroup]="profileForm" (ngSubmit)="updateCustomerData()" style="margin-bottom: 30px;">
+      <form [formGroup]="profileForm"  style="margin-bottom: 30px;"> <!-- (ngSubmit)="updateCustomerData()" -->
         <mat-grid-list cols="1" rowHeight="70px">
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -85,3 +85,5 @@
 
   </div>
 </div>
+
+

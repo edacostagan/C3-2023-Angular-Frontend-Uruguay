@@ -145,14 +145,15 @@ export class CustomerService {
 
 
   /**
-  * Updates the customer information in the DB
-  *
+  * Updates the customer information in the DB  *
   * */
   updateCustomerData(id: string, customer: CustomerModel) {
 
     const res = this.http.put(`${environment.API_URL}customer/update/${id}`, customer)
 
     console.log(res);
+
+    this.refreshCustomerData(id);
   }
 
   /**

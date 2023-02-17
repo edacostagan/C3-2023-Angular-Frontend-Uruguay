@@ -21,6 +21,7 @@ import { DesktopModule } from './components/desktop/desktop.module';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
+import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -39,7 +40,7 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
     JwtModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
-  ],
+  ],entryComponents: [ConfirmDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
