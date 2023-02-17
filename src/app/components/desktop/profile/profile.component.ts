@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { CustomerModel } from 'src/app/interfaces/customer.interface';
+import { CustomerModel, UpdateCustomerModel } from 'src/app/interfaces/customer.interface';
 import { CustomerService } from '../../../services/customer.service';
 import { DesktopComponent } from '../desktop.component';
 import { MessengerService } from '../../../services/messenger.service';
@@ -125,11 +125,12 @@ export class ProfileComponent implements OnInit {
   */
   updateCustomerData() {
 
-    const customer: CustomerModel = this.profileForm.getRawValue();
+    const customer: UpdateCustomerModel = this.profileForm.getRawValue();
 
     customer.password = this.customerData.password;
-    customer.id = this.customerId;
-    customer.avatarUrl = ''
+    //customer.id = this.customerId;
+
+    if(customer.avatarUrl == undefined) customer.avatarUrl = "";
 
     console.log(customer)
 

@@ -12,6 +12,18 @@ export interface CustomerModel {
 
 }
 
+export interface UpdateCustomerModel {
+
+   documentTypeId: string;
+    document: string;
+    fullname: string;
+    email: string;
+    phone: string;
+    password: string;
+    state: boolean;
+    avatarUrl: string;
+
+}
 export interface DocumentTypeModel {
   id: string;
   name: string;

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 // Interfaces
-import { CustomerSignInModel, CustomerSignUpModel, CustomerModel } from '../interfaces/customer.interface';
+import { CustomerSignInModel, CustomerSignUpModel, CustomerModel, UpdateCustomerModel } from '../interfaces/customer.interface';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { TokenResponseModel as TokenResponseModel } from '../interfaces/responses.interface';
 import { AccountModel } from '../interfaces/account.interface';
@@ -131,7 +131,7 @@ export class CustomerService {
   /**
   * Updates the customer information in the DB  *
   * */
-  updateCustomerData(id: string, customer: CustomerModel) {
+  updateCustomerData(id: string, customer: UpdateCustomerModel) {
 
     const res = this.http.put(`${environment.API_URL}customer/update/${id}`, customer)
 
