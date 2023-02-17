@@ -7,15 +7,10 @@ import jwt_decode from 'jwt-decode';
 import { MessengerService } from '../../services/messenger.service';
 import { CustomerService } from '../../services/customer.service';
 
-// Components
-
-
 // Interfaces
 import { CustomerSignInModel, CustomerModel } from '../../interfaces/customer.interface';
-import { TokenResponseModel as TokenResponseModel, SigninTokenResponseModel } from '../../interfaces/responses.interface';
+import { TokenResponseModel as TokenResponseModel } from '../../interfaces/responses.interface';
 import { AuthService } from '../../services/auth.service';
-
-
 
 
 @Component({
@@ -87,16 +82,15 @@ export class SignInComponent {
                 if (responseValue.status) {
 
                   const token = responseValue.token;
-                 // const decoded: CustomerModel = jwt_decode(token) as CustomerModel;
-                 // const account = decoded.id;
-                  let decoded: any = jwt_decode(token) ;
+
+                  let decoded: any = jwt_decode(token);
                   const data: CustomerModel = decoded.data;
 
                   localStorage.setItem('token', token);
                   localStorage.setItem('customerID', data.id);
                   localStorage.setItem('customer', JSON.stringify(data));
-                  if(user.displayName != null) localStorage.setItem('customerFullname', user.displayName);
-                  if(user.photoURL != null)localStorage.setItem('customerImage', user.photoURL);
+                  if (user.displayName != null) localStorage.setItem('customerFullname', user.displayName);
+                  if (user.photoURL != null) localStorage.setItem('customerImage', user.photoURL);
 
                   this.transitionToDesktop(true);
                 }
@@ -104,12 +98,10 @@ export class SignInComponent {
               error: (e) => {
                 this.transitionToDesktop(false);
               }
-            }
-            )
+            })
         }
       }).catch(error => { console.log(error) })
   }
-
 
   /**
    * Checks the response from customerService and verifies
@@ -129,14 +121,14 @@ export class SignInComponent {
 
             const token = responseValue.token;
 
-            let decoded: any = jwt_decode(token) ;
+            let decoded: any = jwt_decode(token);
             const data: CustomerModel = decoded.data;
 
             localStorage.setItem('token', token);
             localStorage.setItem('customer', JSON.stringify(data));
             localStorage.setItem('customerID', data.id);
             localStorage.setItem('customerFullname', data.fullname);
-            if(data.avatarUrl) localStorage.setItem('customerImage', data.avatarUrl);
+            if (data.avatarUrl) localStorage.setItem('customerImage', data.avatarUrl);
 
 
             this.customerService.refreshCustomerAccounts(data.id);
@@ -149,7 +141,6 @@ export class SignInComponent {
         }
       })
   }
-
 
   /**
    * Transition from login to Desktop ( after verify credentials )

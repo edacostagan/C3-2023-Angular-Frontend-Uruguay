@@ -40,7 +40,10 @@ import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confi
     JwtModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
-  ],entryComponents: [ConfirmDialogComponent],
+  ],
+  entryComponents: [
+    ConfirmDialogComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

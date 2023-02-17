@@ -8,6 +8,10 @@ export interface AccountModel{
   state: boolean;
   deletedAt?: Date | number;
 }
+export interface CreateBankAccountModel{
+  customerId: string;
+  accountTypeName: string;
+}
 
 export interface AccountTypeModel{
   id: string;

@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AccountDepositModel, AccountMovementModel } from '../interfaces/account.interface';
+import { AccountDepositModel, AccountMovementModel, CreateBankAccountModel } from '../interfaces/account.interface';
 import { TokenResponseModel } from '../interfaces/responses.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
+
 
 
   constructor(
@@ -25,6 +26,21 @@ export class AccountService {
 
     return this.http.post<TokenResponseModel>(`${environment.API_URL}/deposit/register`, deposit);
 
+  }
+
+
+
+  /**
+   * Creates a new bank account
+   * @param newAccount
+   */
+  createNewBankAccount(newAccount: CreateBankAccountModel) {
+
+    console.log(newAccount)
+
+    const res = this.http.post(`${environment.API_URL}/account/create`, newAccount);
+
+    console.log(res)
   }
 
 
