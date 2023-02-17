@@ -1,12 +1,29 @@
 <div class="container" style="margin-top: 10px;">
   <div>
-    <mat-card style="margin: 10px auto; width: 60%; background-color: rgba(65, 66, 62, 0.6);">
-      <h1 style="color:antiquewhite "> Profile</h1>
-      <nav class="spacer"></nav>
-      <button>Actualizar Datos del cliente </button>
+    <mat-card style="margin: 10px auto; margin-bottom: 30px; width: 60%; background-color: grey;">
+      <mat-toolbar>
+        <h1 style="font-size: x-large; "> Customer Profile </h1>
+        <nav class="spacer"></nav>
+        <div *ngIf="!editing">
+          <button (click)="setEditing()" mat-raised-button color="accent" style="margin-right: 10px;">
+            Update Information
+          </button>
+        </div>
+        <div *ngIf="editing">
+          <button (click)="setEditing()" mat-raised-button style="margin-right: 10px;"> Cancel </button>
+          <button (click)="updateData()" mat-raised-button color="warn" style="margin-right: 10px;"> Save Changes
+          </button>
+        </div>
+      </mat-toolbar>
 
-      <form [formGroup]="profileForm" (ngSubmit)="updateCustomerData()">
+      <form [formGroup]="profileForm" (ngSubmit)="updateCustomerData()" style="margin-bottom: 30px;">
         <mat-grid-list cols="1" rowHeight="70px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+
+            <mat-label> Id: {{customerId}} </mat-label>
+
+          </mat-grid-tile>
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <mat-form-field class="datafield">
@@ -52,7 +69,7 @@
             </mat-form-field>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
+          <!-- <mat-grid-tile [colspan]="1" [rowspan]="1">
             <mat-form-field class="datafield">
               <mat-label>Password: </mat-label>
               <input [type]="hidePass ? 'password' : 'text'" matInput autocomplete="off" formControlName="password">
@@ -60,14 +77,11 @@
                 'visibility'}}</mat-icon>
               <mat-hint *ngIf="!profileForm.value.password">Enter your password</mat-hint>
             </mat-form-field>
-          </mat-grid-tile>
+          </mat-grid-tile> -->
 
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <mat-label style="font-size: x-small;">Session ID: {{token}}</mat-label>
-          </mat-grid-tile>
         </mat-grid-list>
       </form>
-
     </mat-card>
+
   </div>
 </div>

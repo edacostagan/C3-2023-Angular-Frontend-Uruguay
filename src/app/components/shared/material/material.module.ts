@@ -15,6 +15,8 @@ import { MatGridListModule} from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 const component = [
@@ -33,6 +35,9 @@ const component = [
   MatTableModule,
   MatTooltipModule,
   MatPaginatorModule,
+  MatDialogModule,
+
+
 
 ];
 
@@ -54,6 +59,8 @@ const component = [
     MatTableModule,
     MatTooltipModule,
     MatPaginatorModule,
+    MatDialogModule,
+
 
   ],
   exports: [

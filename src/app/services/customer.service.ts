@@ -15,6 +15,7 @@ import { AccountModel } from '../interfaces/account.interface';
 export class CustomerService {
 
 
+
   customerData: BehaviorSubject<{}> = new BehaviorSubject({});
   customerAccounts: BehaviorSubject<[]> = new BehaviorSubject([]);
   customerTotalBalance: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -94,6 +95,18 @@ export class CustomerService {
 
   }
 
+
+/**
+ * Sends new customer data to update the info in DB
+ * @param newCustomerData  new info
+ */
+  /* updateCustomerData2(id:string, newCustomerData: CustomerModel) {
+
+    const res = this.http.put(`${environment.API_URL}/customer/update/${id}`, newCustomerData);
+
+    console.log(res)
+  }
+ */
   /**
    * Makes a request to Backend to register a new customer
    * @param customer customer entity data
@@ -136,7 +149,10 @@ export class CustomerService {
   *
   * */
   updateCustomerData(id: string, customer: CustomerModel) {
-    return this.http.put<TokenResponseModel>(`${environment.API_URL}customer/update/${id}`, customer)
+
+    const res = this.http.put(`${environment.API_URL}customer/update/${id}`, customer)
+
+    console.log(res);
   }
 
   /**

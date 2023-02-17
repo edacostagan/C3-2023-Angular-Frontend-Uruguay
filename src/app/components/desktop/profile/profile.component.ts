@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CustomerModel } from 'src/app/interfaces/customer.interface';
 import { CustomerService } from '../../../services/customer.service';
+import { DesktopComponent } from '../desktop.component';
 
 @Component({
   selector: 'app-profile',
@@ -10,18 +11,20 @@ import { CustomerService } from '../../../services/customer.service';
 })
 export class ProfileComponent implements OnInit {
 
-  token: string = localStorage.getItem('token') as string;
+
   profileForm: FormGroup;
   customerData!: CustomerModel;
 
   documentTypes: string[] = ["ID Card", "Passport ID"];
-
   hidePass = true;
   hideConfirmPass = true
   loading = false;
+  editing = false;
+  customerId = localStorage.getItem("customerID") as string;
 
   constructor(
-    private readonly customerService: CustomerService,
+    private  customerService: CustomerService,
+    private deskComp: DesktopComponent,
 
     private fb: FormBuilder) {
     this.profileForm = this.fb.group({
@@ -60,6 +63,23 @@ export class ProfileComponent implements OnInit {
 
   }
 
+  setEditing(){
+    this.editing = !this.editing;
+  }
+
+  updateData(){
+
+    if(this.editing){
+
+      const newCustomerData = this.profileForm.getRawValue();
+
+      this.customerService.updateCustomerData(this.customerId, newCustomerData);
+
+      this.deskComp.showMain();
+
+    }
+
+  }
 
    /**
    * Sends the new customer info to be updated in backend

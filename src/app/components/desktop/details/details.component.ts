@@ -23,7 +23,7 @@ export class DetailsComponent implements OnInit {
   currentCustomerBankAccount: string = "";
 
   accountsDisplayedColumns: string[] = ['id', 'accountType', 'balance', 'actions'];
-  movementsDisplayedColumns: string[] = ['date', 'originAccount', 'destinationAccount', 'balance', 'concept'];
+  movementsDisplayedColumns: string[] = ['date', 'originAccount', 'destinationAccount', 'balance', 'concept', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
