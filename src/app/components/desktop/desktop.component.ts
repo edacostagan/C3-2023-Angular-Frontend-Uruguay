@@ -32,13 +32,15 @@ export class DesktopComponent implements OnInit {
     this.customerService.customerId.subscribe(value => this.customerId = value);
     this.customerService.customerName.subscribe(value => this.customerName = value);
     this.customerService.customerAvatarURL.subscribe(value => this.customerAvatarUrl = value);
-
     this.customerId = localStorage.getItem("customerID") as string;
 
     this.showMain();
   }
 
 
+  /**
+   * shows main desktop page
+   */
   showMain(){
 
     this.showMainPage = true;
@@ -47,6 +49,9 @@ export class DesktopComponent implements OnInit {
     this.showTransferPage = false;
   }
 
+  /**
+   * shows customer profile page
+   */
   showProfile(){
     this.showMainPage = false;
     this.showProfilePage = true;
@@ -54,6 +59,9 @@ export class DesktopComponent implements OnInit {
     this.showTransferPage = false;
   }
 
+  /**
+   * shows deposits page
+   */
   makeDeposit(){
 
     this.showMainPage = false;
@@ -62,6 +70,9 @@ export class DesktopComponent implements OnInit {
     this.showTransferPage = false;
   }
 
+  /**
+   * shows trasnfer page
+   */
   makeTransfer(){
     this.showMainPage = false;
     this.showProfilePage = false;

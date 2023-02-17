@@ -14,7 +14,6 @@ import { ConfirmDialogComponent, ConfirmDialogModel } from '../../shared/confirm
 })
 export class ProfileComponent implements OnInit {
 
-
   profileForm: FormGroup;
   customerData!: CustomerModel;
 
@@ -72,13 +71,11 @@ export class ProfileComponent implements OnInit {
       phone: this.customerData.phone,
       avatarUrl: this.customerData.avatarUrl,
     })
-
   }
 
-
-/**
- * Sets the editing status
- */
+  /**
+   * Sets the editing status
+   */
   setEditing() {
     this.editing = !this.editing;
   }
@@ -91,9 +88,7 @@ export class ProfileComponent implements OnInit {
     if (this.editing) {
 
       this.confirmDialog("Update Customer Information", "Are you sure of apply this changes?")
-
     }
-
   }
 
 
@@ -143,12 +138,13 @@ export class ProfileComponent implements OnInit {
     this.messages.infoMsg("Customer Updated succesfully!", '', 4000);
 
     this.deskComp.showMain();
-
-
   }
 }
 
 
+/**
+ * Checks that password and confirmPassword matchs
+ */
 function passwordsMatchValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password')?.value;

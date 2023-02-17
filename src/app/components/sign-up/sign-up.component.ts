@@ -59,6 +59,10 @@ export class SignUpComponent {
 
   }
 
+  /**
+   * Collects info from google account and
+   * sets it in the registration form
+   */
   registerWithGoogle() {
 
     //this gets Google account info and sets it on the form ( user needs to complete all data to register )
@@ -74,8 +78,9 @@ export class SignUpComponent {
       }).catch (error => { })
     }
 
-
-
+    /**
+     * Validate the info given to make a new registration
+     */
   validateRegistration(customer: CustomerSignUpModel) {
 
     this.customerService.addNewCustomer(customer)
@@ -123,10 +128,11 @@ export class SignUpComponent {
 
     }
   }
-
-
 }
 
+/**
+ * Verify password
+ */
 function passwordsMatchValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password')?.value;

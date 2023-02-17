@@ -10,12 +10,9 @@ import { TokenResponseModel } from '../interfaces/responses.interface';
 })
 export class AccountService {
 
-
-
   constructor(
     private http: HttpClient,
   ) { }
-
 
   /**
    * Makes a request to Backend to register a new customer
@@ -27,8 +24,6 @@ export class AccountService {
     return this.http.post<TokenResponseModel>(`${environment.API_URL}/deposit/register`, deposit);
 
   }
-
-
 
   /**
    * Creates a new bank account
@@ -43,14 +38,16 @@ export class AccountService {
     console.log(res)
   }
 
-
+  /**
+   * Gets all the incoming deposits to the given account id
+   */
   getDepositsToCurrentAccount(id: string) {
 
     this.http.get<AccountMovementModel[]>(`${environment.API_URL}/deposit/${id}`)
-    .subscribe( result => {
-      localStorage.setItem('accountMovements', JSON.stringify(result));
-    }
-    )
+      .subscribe(result => {
+        localStorage.setItem('accountMovements', JSON.stringify(result));
+      }
+      )
   }
 
 }

@@ -69,7 +69,9 @@ export class DetailsComponent implements OnInit {
 
   }
 
-
+  /**
+   * refresh account movements
+   */
   refreshCurrentAccountMovements() {
 
     this.accountService.getDepositsToCurrentAccount(this.currentCustomerBankAccount);
@@ -80,6 +82,9 @@ export class DetailsComponent implements OnInit {
   }
 
 
+  /**
+   *  converts from datetime number to date format
+   */
   convertToDateFormat(datetime: number) {
 
     return new Date(datetime).toLocaleDateString('es-ES');

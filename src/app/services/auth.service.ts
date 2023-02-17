@@ -16,10 +16,16 @@ export class AuthService {
   publicZone: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
 
+  /**
+   * sets the user log status
+   */
   setUserLogStatus(status: boolean) {
     this.loggedUser.next(status);
   }
 
+  /**
+   * Sets if is public zone or restricted zone
+   */
   setPublicZoneStatus(status: boolean) {
     this.publicZone.next(status);
   }

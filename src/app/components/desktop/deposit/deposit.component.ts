@@ -50,16 +50,22 @@ export class DepositComponent {
     this.customerId = localStorage.getItem("customerID") as string;
   }
 
+  /**
+   * sets account creation status
+   */
   setCreateNewAccount() {
     this.newAccount = !this.newAccount;
   }
 
+
+  /**
+   * ask for confirmation on account creation
+   */
   createAccountConfirmation() {
 
     if (this.newAccount) {
 
       this.confirmDialog("Create New Account", "Are you sure?", true)
-
     }
   }
 
@@ -115,12 +121,17 @@ export class DepositComponent {
   }
 
 
-
+  /**
+   * Ask confirmation on new deposit
+   */
   newDepositConfirmation() {
 
-      this.confirmDialog("Create New Deposit", "Confirm Deposit?", false)
+    this.confirmDialog("Create New Deposit", "Confirm Deposit?", false)
   }
 
+  /**
+   * Collect the info to make a new deposit registration
+   */
   createNewDeposit() {
 
     let amountToDeposit: number = this.depositForm.value.amountToDeposit;
@@ -141,19 +152,18 @@ export class DepositComponent {
 
           this.deskComp.showMain();
 
-
         } else {
           this.messages.infoMsg("Deposit Failed!", "", 4000);
         }
-
         this.resetForm()
       })
   }
 
+  /**
+   * clears the deposit form
+   */
   resetForm() {
     this.customerService.refreshCustomerAccounts(localStorage.getItem("customerID") as string);
     this.depositForm.reset();
   }
-
-
 }
