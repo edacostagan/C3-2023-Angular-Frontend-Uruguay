@@ -6,6 +6,7 @@ import { DesktopComponent } from '../desktop.component';
 import { MessengerService } from '../../../services/messenger.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { AccountTypeModel } from '../../../interfaces/account.interface';
 
 @Component({
   selector: 'app-profile',
@@ -109,7 +110,7 @@ export class ProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
 
       if (dialogResult) {
-        const newCustomerData = this.profileForm.getRawValue();
+        //const newCustomerData = this.profileForm.getRawValue();
 
         this.updateCustomerData();
 
@@ -125,14 +126,16 @@ export class ProfileComponent implements OnInit {
   */
   updateCustomerData() {
 
-    const customer: UpdateCustomerModel = this.profileForm.getRawValue();
+    let customer: UpdateCustomerModel = this.profileForm.getRawValue() as UpdateCustomerModel;
+
+    const docType = this.profileForm.value.documentType;
 
     customer.password = this.customerData.password;
-    //customer.id = this.customerId;
+    customer.documentTypeId = docType.id;
 
     if(customer.avatarUrl == undefined) customer.avatarUrl = "";
 
-    console.log(customer)
+    console.log(customer  )
 
     this.customerService.updateCustomerData(this.customerData.id, customer)
 
