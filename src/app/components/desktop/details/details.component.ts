@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { AccountModel, AccountMovementModel } from '../../../interfaces/account.interface';
+import { AccountModel, AccountMovementModel, AccountMovementTransferModel } from '../../../interfaces/account.interface';
 import { CustomerService } from '../../../services/customer.service';
 import { AccountService } from '../../../services/account.service';
 
@@ -17,7 +17,7 @@ export class DetailsComponent implements OnInit {
   accounts!: AccountModel[];
   movements!: AccountMovementModel[];
 
-  movementsDatasource!: MatTableDataSource<any>; // = new MatTableDataSource(this.movements);
+  movementsDatasource!: MatTableDataSource<AccountMovementModel>;
 
   totalBalance: number = 0;
   currentCustomerBankAccount: string = "";
@@ -25,7 +25,8 @@ export class DetailsComponent implements OnInit {
   accountsDisplayedColumns: string[] = ['id', 'accountType', 'balance', 'actions'];
   movementsDisplayedColumns: string[] = ['date', 'originAccount', 'destinationAccount', 'balance', 'concept', 'actions'];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
 
   constructor(
     private customerService: CustomerService,
@@ -45,16 +46,13 @@ export class DetailsComponent implements OnInit {
 
     if (this.accounts.length > 0) this.currentCustomerBankAccount = this.accounts[0].id
 
-    this.refreshCurrentAccountMovements();
+    this.refreshCurrentAccountMovements(this.currentCustomerBankAccount);
 
   }
 
 
   ngAfterViewInit() {
-
-    if (this.movementsDatasource.data != null)
-      this.movementsDatasource.paginator = this.paginator;
-
+    this.movementsDatasource.paginator = this.paginator;
   }
 
 
@@ -62,23 +60,75 @@ export class DetailsComponent implements OnInit {
   getAccountId(idx: number) {
 
     this.currentCustomerBankAccount = this.accounts[idx].id;
-
-    this.refreshCurrentAccountMovements();
-
-    this.movementsDatasource._renderChangesSubscription;
-
+    this.refreshCurrentAccountMovements(this.currentCustomerBankAccount);
   }
 
   /**
    * refresh account movements
    */
-  refreshCurrentAccountMovements() {
+  refreshCurrentAccountMovements(id: string) {
 
-    this.accountService.getDepositsToCurrentAccount(this.currentCustomerBankAccount);
 
-    this.movements = JSON.parse(localStorage.getItem('accountMovements') as string);
+    //this.accountService.clearAccountMovements();
 
-    this.movementsDatasource = new MatTableDataSource(this.movements);
+
+    this.accountService.getDepositsToCurrentAccount(id);
+    this.accountService.getTransferToCurrentAccount(id);
+
+    let deposits: AccountMovementModel[] = [];
+    let transfers: AccountMovementTransferModel[] = [];
+
+    deposits = this.accountService.deposits;
+    transfers = this.accountService.transfers;
+
+    if (deposits) {
+      this.formatAccountMovements(deposits);
+    }
+
+    if (transfers) {
+      this.addTransfersToMovements(transfers);
+    }
+
+    if (deposits || transfers) {
+      this.movementsDatasource = new MatTableDataSource(this.movements);
+      this.movementsDatasource._renderChangesSubscription;
+    }else{
+      this.movementsDatasource=new MatTableDataSource();
+    }
+  }
+
+
+  /**
+   * Sets the correct display format for account deposits
+   */
+  formatAccountMovements(deposits: AccountMovementModel[]) {
+    deposits.forEach(element => {
+      element.destinationAccountId = element.accountId;
+      element.accountId = "N/A";
+      element.reason = 'Direct Deposit';
+    });
+
+    this.movements = deposits;
+  }
+
+  /**
+   * sets the correct display format to transfer movements
+   */
+  addTransfersToMovements(transfers: AccountMovementTransferModel[]) {
+
+    transfers.forEach(element => {
+
+      let formatedTransferDisplay: AccountMovementModel = {
+        id: element.id,
+        accountId: element.outcome,
+        destinationAccountId: element.income,
+        amount: element.amount,
+        reason: element.reason,
+        datetime: Number(element.datetime),
+      }
+
+      this.movements.push(formatedTransferDisplay)
+    });
   }
 
 

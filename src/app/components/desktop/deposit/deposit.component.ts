@@ -107,8 +107,8 @@ export class DepositComponent {
 
     let newAccount: CreateBankAccountModel = this.newAccountForm.getRawValue();
 
-    newAccount.customerId = this.customerId;
-    newAccount.accountTypeName = this.newAccountForm.value.accountTypeName;
+    newAccount.customerId = String(this.customerId);
+    newAccount.accountTypeName = String(this.newAccountForm.value.accountTypeName);
 
     this.accountService.createNewBankAccount(newAccount)
 

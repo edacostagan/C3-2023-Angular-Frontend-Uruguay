@@ -18,9 +18,6 @@
 
           <div style="background-color:gray;">
 
-
-
-
             <mat-form-field class="formFieldSize" appearance="fill" style="margin-top: 20px;">
               <mat-label>e-Mail</mat-label>
               <input type="text" matInput autocomplete="on" formControlName="username">
@@ -31,6 +28,11 @@
               <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               <mat-hint *ngIf="!signinForm.value.password">Enter your password</mat-hint>
             </mat-form-field>
+
+
+            <button class="signin-button" type="submit" mat-raised-button color="primary"
+            style="margin: 10px;" (click)="forcedEntry()"> Direct Enter </button>
+
 
             <button class="signin-button" type="submit" mat-raised-button color="primary"
               [disabled]="signinForm.invalid" style="margin: 10px;">Sign In</button>

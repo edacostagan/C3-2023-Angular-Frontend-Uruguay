@@ -1,16 +1,17 @@
-<div class="container" style="margin-top: 10px;">
+<div class="container" style="margin-top: 20px;">
   <div>
-    <mat-card style="margin: 10px auto; width: 60%; ">
+    <mat-card style="margin: 10px auto; width: 80%; ">
       <mat-toolbar>
         <h1 style="font-size: x-large; "> New Transference </h1>
         <nav class="spacer"></nav>
       </mat-toolbar>
+
       <form [formGroup]="transferForm" (ngSubmit)="newTransferConfirmation()" style="margin-top: 30px;">
 
-        <mat-grid-list cols="3" rowHeight="70px">
+        <mat-grid-list cols="3" rowHeight="60px">
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1" style="background-color: darkgray;">
-            <mat-label> Origin Account: </mat-label>
+          <mat-grid-tile [colspan]="1" [rowspan]="1" >
+            <mat-label class="fieldLabel"> Origin Account: </mat-label>
           </mat-grid-tile>
 
           <mat-grid-tile [colspan]="2" [rowspan]="1" style="background-color: rgb(210, 200, 255);">
@@ -19,23 +20,51 @@
             </mat-select>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1" style="background-color: darkgray; margin-top: 5px;">
-            <mat-label>Destination Account: </mat-label>
+          <mat-grid-tile [colspan]="3" [rowspan]="1">
+            <mat-label style="font-size: 20px;"> Available Founds in Account: $
+              {{transferForm.value.originAccount.balance}}
+            </mat-label>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 80%; background-color: darkgray; margin-top: 5px;">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1" >
+            <mat-label class="fieldLabel">Destination Account: </mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="2" [rowspan]="1" >
             <mat-form-field>
-              <input matInput autocomplete="off" formControlName="destinationAccount" style="margin-top: 5px;">
+              <input matInput autocomplete="off" formControlName="destinationAccount">
             </mat-form-field>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1" style="background-color: darkgray; margin-top: 5px;">
-            <mat-label>Amount: $ </mat-label>
+          <!-- <mat-grid-tile [colspan]="3" [rowspan]="1" style="width: 80%; background-color: darkgray; margin-top: 7px;">
+            <button type="button" mat-raised-button color="warn" (click)="findDestinationAccounts()" [disabled]="true">
+               Find Account
+            </button> style="background-color: darkgray; margin-top: 7px;"
+          </mat-grid-tile> -->
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1" >
+            <mat-label class="fieldLabel">Amount: $ </mat-label>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="2" [rowspan]="1" style="background-color: darkgray; margin-top: 5px;">
-            <mat-form-field>
-              <input matInput autocomplete="off" formControlName="amountToDeposit" style="margin-top: 5px;">
+          <mat-grid-tile [colspan]="2" [rowspan]="1" >
+            <mat-form-field> <input matInput autocomplete="off" formControlName="amountToTransfer"> </mat-form-field>
+          </mat-grid-tile>
+
+
+          <mat-grid-tile [colspan]="3" [rowspan]="1" >
+            <mat-label class="fieldLabel"> Comments: </mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="3" [rowspan]="1" >
+            <mat-form-field >
+              <input matInput autocomplete="off" formControlName="comments">
             </mat-form-field>
           </mat-grid-tile>
+
+
+          <mat-grid-tile [colspan]="3" [rowspan]="1">
+            <mat-error  *ngIf="transferForm.value.originAccount.balance < transferForm.value.amountToTransfer">
+              Not enough founds in this account. Can't make a transfer!
+            </mat-error>
+          </mat-grid-tile>
+
 
           <mat-grid-tile [colspan]="3" [rowspan]="1">
 

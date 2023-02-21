@@ -1,17 +1,19 @@
-.datalabel{
-  font-size: large;
-  font-weight: bold;
-  text-align: right;
-  background-color: rgb(170, 158, 126);
-  width: 80%;
+.fieldLabel{
+  font-size: 25px;
 }
 
-.datafield{
-  font-size: larger;
+mat-grid-tile{
+  background-color: darkgray;
+  margin-top: 7px;
+}
+
+mat-form-field{
+  width: 95%;
+  margin-top: 5px auto;
+}
+
+mat-error{
+  height: 40px;
+  font-size: 20px;
   font-weight: bold;
-  font-style: italic;
-  text-align: left;
-  color: aliceblue;
-  background-color: rgb(31, 28, 28);
-  width: 80%;
 }

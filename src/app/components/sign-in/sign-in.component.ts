@@ -39,6 +39,19 @@ export class SignInComponent {
     });
   }
 
+
+  //TODO: remove this when finished - is just a backdoor
+  forcedEntry(){
+    let userSignin: CustomerSignInModel = {
+      username: "a@a.com",
+      password: "123456"
+      }
+      this.validateCredentials(userSignin);
+    }
+
+
+
+
   /**
    * User login from signin form
    */
