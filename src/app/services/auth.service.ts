@@ -37,7 +37,6 @@ export class AuthService {
   ) { }
 
 
-
   /**
    * Used to login with Firebase
    * @returns Promise Token

@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
 // Interfaces
-import { CustomerSignInModel, CustomerSignUpModel, CustomerModel, UpdateCustomerModel } from '../interfaces/customer.interface';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { TokenResponseModel as TokenResponseModel } from '../interfaces/responses.interface';
+import { CustomerModel, CustomerSignInModel, CustomerSignUpModel, UpdateCustomerModel } from '../interfaces/customer.interface';
+
+import { TokenResponseModel } from '../interfaces/responses.interface';
 import { AccountModel } from '../interfaces/account.interface';
 
 @Injectable({
@@ -117,15 +118,15 @@ export class CustomerService {
    */
   getCustomerData(id: string) {
 
-    this.http.get(`${environment.API_URL}/customer/${id}`) //, {}
-      .subscribe({
+    this.http.get(`${environment.API_URL}/customer/${id}`)
+    .subscribe({
         next: (response) => {
 
           const responseValue: CustomerModel = response as CustomerModel;
 
           localStorage.setItem("customer", JSON.stringify(responseValue));
         },
-      })
+     })
   }
 
   /**
@@ -155,6 +156,8 @@ export class CustomerService {
    * @param id id to be search for
    */
   getCustomerAccounts(id: string) {
+
+
 
     this.http.get(`${environment.API_URL}/account/customer/${id}`)
       .subscribe({

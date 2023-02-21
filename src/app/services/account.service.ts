@@ -42,7 +42,11 @@ export class AccountService {
    */
   createNewBankAccount(newAccount: CreateBankAccountModel) {
 
-    this.http.post(`${environment.API_URL}/account/create/`, newAccount);
+    const res = this.http.post<any>(`${environment.API_URL}/account/create/`, newAccount);
+
+    console.log(res)
+
+
 
   }
 

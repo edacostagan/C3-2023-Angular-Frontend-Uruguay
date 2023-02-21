@@ -110,6 +110,8 @@ export class DepositComponent {
     newAccount.customerId = String(this.customerId);
     newAccount.accountTypeName = String(this.newAccountForm.value.accountTypeName);
 
+console.log ( newAccount )
+
     this.accountService.createNewBankAccount(newAccount)
 
     this.messages.infoMsg("New Account Created!", '', 4000);

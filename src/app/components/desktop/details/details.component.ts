@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -31,6 +31,7 @@ export class DetailsComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private accountService: AccountService,
+
   ) { }
 
 
@@ -71,6 +72,7 @@ export class DetailsComponent implements OnInit {
 
     //this.accountService.clearAccountMovements();
 
+    this.movements = [];
 
     this.accountService.getDepositsToCurrentAccount(id);
     this.accountService.getTransferToCurrentAccount(id);
@@ -81,20 +83,21 @@ export class DetailsComponent implements OnInit {
     deposits = this.accountService.deposits;
     transfers = this.accountService.transfers;
 
-    if (deposits) {
-      this.formatAccountMovements(deposits);
+    this.formatAccountMovements(deposits);
+    this.addTransfersToMovements(transfers);
+
+    if (deposits.length == 0 && transfers.length == 0) {
+      this.movements = [];
+
+      console.log(deposits)
+
+      console.log(transfers)
+
+      console.log(this.movements)
+
     }
 
-    if (transfers) {
-      this.addTransfersToMovements(transfers);
-    }
-
-    if (deposits || transfers) {
-      this.movementsDatasource = new MatTableDataSource(this.movements);
-      this.movementsDatasource._renderChangesSubscription;
-    }else{
-      this.movementsDatasource=new MatTableDataSource();
-    }
+    this.movementsDatasource = new MatTableDataSource(this.movements);
   }
 
 
