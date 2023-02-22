@@ -49,7 +49,7 @@
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <mat-form-field class="datafield">
               <mat-label>Document Type: </mat-label>
-              <mat-select formControlName="documentType">
+              <mat-select formControlName="documentTypeId">
                 <mat-option *ngFor="let item of documentTypes" [value]="item"> {{item}} </mat-option>
               </mat-select>
             </mat-form-field>

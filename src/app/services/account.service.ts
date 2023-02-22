@@ -40,13 +40,11 @@ export class AccountService {
    * Creates a new bank account
    * @param newAccount
    */
-  createNewBankAccount(newAccount: CreateBankAccountModel) {
+  createNewBankAccount(newAccount: CreateBankAccountModel) : Observable<TokenResponseModel> {
 
-    const res = this.http.post<any>(`${environment.API_URL}/account/create/`, newAccount);
+    console.log(newAccount)
 
-    console.log(res)
-
-
+    return this.http.post<TokenResponseModel>(`${environment.API_URL}/account/create`, newAccount);
 
   }
 

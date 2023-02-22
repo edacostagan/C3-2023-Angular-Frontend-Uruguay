@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
     this.profileForm = this.fb.group({
       fullname: [''],
       email: ['', [Validators.email]],
-      documentType: [''],
+      documentTypeId: [''],
       document: [''],
       phone: [''],
       avatarUrl: [''],
@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
     this.profileForm.patchValue({
       fullname: this.customerData.fullname,
       email: this.customerData.email,
-      documentType: this.customerData.documentType,
+      documentTypeId: this.customerData.documentType.name,
       document: this.customerData.document,
       phone: this.customerData.phone,
       avatarUrl: this.customerData.avatarUrl,
@@ -126,16 +126,14 @@ export class ProfileComponent implements OnInit {
   */
   updateCustomerData() {
 
-    let customer: UpdateCustomerModel = this.profileForm.getRawValue() as UpdateCustomerModel;
+    let customer: UpdateCustomerModel = this.profileForm.getRawValue(); // as UpdateCustomerModel;
 
-    const docType = this.profileForm.value.documentType;
+    const docType = this.profileForm.value.documentType.name;
+    customer.documentTypeId = String(docType);
+    if (customer.avatarUrl == undefined) customer.avatarUrl = "";
 
-    customer.password = this.customerData.password;
-    customer.documentTypeId = docType.id;
 
-    if(customer.avatarUrl == undefined) customer.avatarUrl = "";
-
-    console.log(customer  )
+    console.log(customer)
 
     this.customerService.updateCustomerData(this.customerData.id, customer)
 

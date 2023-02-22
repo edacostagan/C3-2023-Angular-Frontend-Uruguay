@@ -88,13 +88,6 @@ export class DetailsComponent implements OnInit {
 
     if (deposits.length == 0 && transfers.length == 0) {
       this.movements = [];
-
-      console.log(deposits)
-
-      console.log(transfers)
-
-      console.log(this.movements)
-
     }
 
     this.movementsDatasource = new MatTableDataSource(this.movements);

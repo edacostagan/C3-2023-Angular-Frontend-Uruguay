@@ -105,12 +105,13 @@ export class DepositComponent {
    */
   createAccountProcess() {
 
-    let newAccount: CreateBankAccountModel = this.newAccountForm.getRawValue();
+    let newAccount = this.newAccountForm.getRawValue();
 
-    newAccount.customerId = String(this.customerId);
-    newAccount.accountTypeName = String(this.newAccountForm.value.accountTypeName);
+    const id =localStorage.getItem("customerID") as string;
+    const type = this.newAccountForm.value.accountTypeName;
 
-console.log ( newAccount )
+    newAccount.customerId = id;
+    newAccount.accountTypeName = type;
 
     this.accountService.createNewBankAccount(newAccount)
 
@@ -121,7 +122,6 @@ console.log ( newAccount )
     this.setCreateNewAccount();
 
   }
-
 
   /**
    * Ask confirmation on new deposit
